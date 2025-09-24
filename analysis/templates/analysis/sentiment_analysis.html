@@ -1,0 +1,47 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sentiment Analysis</title>
+    <link rel="stylesheet" href="{% static 'analysis/style.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <h1>News Article Sentiment Analysis</h1>
+        <form method="post" class="url-form">
+            {% csrf_token %}
+            <label for="url" class="input-label">Enter Article URL:</label>
+            <input type="text" name="url" id="url" placeholder="e.g. https://www.thehindu.com/" required>
+            <button type="submit">Submit</button>
+        </form>
+
+        {% if url %}
+            <div class="submitted-url">
+                <h2>Submitted URL:</h2>
+                <p><a href="{{ url }}" target="_blank" style="color: lightgrey;">{{ url }}</a></p>
+            </div>
+        {% endif %}
+
+        {% if title %}
+            <h2 class="title">{{ title }}</h2>
+        {% endif %}
+
+        {% if sentiment %}
+            <h3>Sentiment Analysis Result:</h3>
+            <p>{{ sentiment }}</p>
+        {% endif %}
+
+        {% if cleaned_texts %}
+            <h3>Cleaned Text:</h3>
+            <ul>
+                {% for entry in cleaned_texts %}
+                    <li>{{ entry.cleaned_text }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
+</body>
+</html>
